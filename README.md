@@ -2,6 +2,20 @@
 
 Sample example how to load a Tensorflow Object detection API v2 model and serve prediction in C++  
 
+## Download models
+
+1. Object detection
+
+```bash
+https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1
+```
+
+2. Animels detection
+
+```bash
+wget http://download.tensorflow.org/models/object_detection/tf2/20200711/efficientdet_d3_coco17_tpu-32.tar.gz
+```
+
 ## Build and installation
 
 1. Tensorflow 2.8.0
