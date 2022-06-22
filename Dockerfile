@@ -148,4 +148,36 @@ RUN apt-get install fuse libfuse2 git python3-pip ack-grep -y
 RUN curl -fLo /root/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 RUN pip3 install --user neovim
+
+RUN apt-get update -qq && apt-get -y install autoconf \
+    automake build-essential cmake git-core libass-dev libfreetype6-dev \
+    libgnutls28-dev libmp3lame-dev libsdl2-dev libtool libva-dev \
+    libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev \
+    meson ninja-build pkg-config texinfo wget yasm zlib1g-dev
+
+RUN apt-get -y install libunistring-dev libaom-dev nasm libx264-dev libx265-dev \
+    libnuma-dev libvpx-dev libfdk-aac-dev libopus-dev
+
+RUN git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg && \
+    cd ffmpeg && git checkout origin/release/4.0 && \
+    ./configure \
+    --pkg-config-flags="--static" \
+    --enable-shared \
+    --extra-libs="-lpthread -lm" \
+    --ld="g++" \
+    --enable-gpl \
+    --enable-gnutls \
+    --enable-libaom \
+    --enable-libass \
+    --enable-libfdk-aac \
+    --enable-libfreetype \
+    --enable-libmp3lame \
+    --enable-libopus \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-nonfree && \
+    make -j8 && make install && hash -r
+
 WORKDIR root/
